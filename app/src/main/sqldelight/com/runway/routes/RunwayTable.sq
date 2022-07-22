@@ -1,0 +1,35 @@
+CREATE TABLE Runway(
+  _id INTEGER PRIMARY KEY AUTOINCREMENT,
+  runwayId INTEGER NOT NULL,
+  lat REAL NOT NULL,
+  lon REAL NOT NULL,
+  latSin REAL NOT NULL,
+  latCos REAL NOT NULL,
+  lonSin REAL NOT NULL,
+  lonCos REAL NOT NULL,
+  nameEn TEXT NOT NULL,
+  nameRu TEXT NOT NULL,
+  active INTEGER NOT NULL,
+  type TEXT NOT NULL,
+  indexEn TEXT NOT NULL,
+  indexRu TEXT NOT NULL
+);
+
+hasRecords:
+SELECT count(_id) <> 0
+FROM Runway;
+
+insert:
+INSERT INTO Runway(runwayId, lat, lon, latSin, latCos, lonSin, lonCos, nameEn, nameRu, active, type, indexEn, indexRu)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+getByDistance:
+SELECT *, (
+    :inputLatSin * latSin
+    + :inputLatCos * latCos
+    * (:inputLonSin * lonSin + :inputLonCos * lonCos)
+) AS distance
+FROM Runway
+WHERE active == 1
+ORDER BY distance DESC
+LIMIT :skip, :count;
