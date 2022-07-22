@@ -2,4 +2,7 @@
 /.gradle
 /.idea
 /build
+/app
 local.properties
+/app/.gradle/
+/gradle/wrapper/gradle-wrapper.jar
