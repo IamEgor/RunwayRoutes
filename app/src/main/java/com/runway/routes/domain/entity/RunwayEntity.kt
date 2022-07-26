@@ -11,6 +11,7 @@ data class RunwayEntity(
     val type: RunwayType,
     val indexEn: String,
     val indexRu: String,
+    val belongs: Owner?,
     val distanceKm: Double? = null
 ) {
 
@@ -31,6 +32,7 @@ data class RunwayEntity(
         type: String,
         indexEn: String,
         indexRu: String,
+        belongs: String,
         distanceKm: Double? = null
     ) : this(
         _id = _id,
@@ -43,6 +45,7 @@ data class RunwayEntity(
         type = runwayType(type),
         indexEn = indexEn,
         indexRu = indexRu,
+        belongs = Owner.fromString(belongs),
         distanceKm = distanceKm
     )
 }
@@ -50,4 +53,25 @@ data class RunwayEntity(
 enum class RunwayType(val value: String) {
     VERT("vert"),
     AIRPORT("airport"),
+}
+
+enum class Owner(val value: String) {
+
+    CA("ГА"),
+    GA("АОН"),
+    EA("ЭА"),
+    MD("МО"),
+    MUS("МВД"),
+    FSB("ФСБ"),
+    DOSAAF("ДОСААФ"),
+    MES("МЧС");
+
+    companion object {
+        fun fromString(value: String): Owner? {
+            values().forEach { owner ->
+                if (value == owner.value) return owner
+            }
+            return null
+        }
+    }
 }

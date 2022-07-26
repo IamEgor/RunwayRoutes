@@ -37,6 +37,7 @@ class RunwayLocalDataSource(database: Database) {
                     point.name_ru,
                     point.active,
                     point.type,
+                    point.belongs,
                     point.index,
                     point.index_ru
                 )
@@ -57,5 +58,9 @@ class RunwayLocalDataSource(database: Database) {
         )
             .executeAsList()
             .map { it.toEntity() }
+    }
+
+    suspend fun getAllRunways() = coroutineScope {
+        tableQueries.getAllRecords().executeAsList().map { it.toEntity() }
     }
 }

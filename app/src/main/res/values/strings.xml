@@ -11,4 +11,14 @@
     <string name="location_permission_request_rationale">Please grant the location permission.</string>
     <string name="location_permission_request_no_rationale">Please grant the location permission using app settings</string>
     <string name="distance">%.2f km</string>
+    <!--Owner-->
+    <string name="owner_civil">Civil aviation</string>
+    <string name="owner_general">General aviation</string>
+    <string name="owner_experimental">Experimental aviation</string>
+    <string name="owner_ministry_of_defence">Ministry of Defence</string>
+    <string name="owner_ministry_of_internal_affairs">Ministry of Internal Affairs</string>
+    <string name="owner_federal_security_service">Federal Security Service</string>
+    <string name="owner_DOSAAF">DOSAAF</string>
+    <string name="owner_ministry_of_emergency_situations">Ministry of Emergency Situations</string>
+    <!--Owner-->
 </resources>

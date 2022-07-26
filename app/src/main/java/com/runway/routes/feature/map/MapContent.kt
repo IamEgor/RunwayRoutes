@@ -3,27 +3,30 @@ package com.runway.routes.feature.map
 import android.Manifest
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
-import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.compose.*
 import com.runway.routes.R
 import com.runway.routes.RunwayApp
+import com.runway.routes.data.utils.toLatLng
+import com.runway.routes.domain.entity.LocationEntity
 import com.runway.routes.utils.openAppSystemSettings
 
+const val ZOOM = 12f
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -38,7 +41,7 @@ fun MapContent(
 
     when (val status = permissionState.status) {
         PermissionStatus.Granted -> {
-            PermissionGrantedView(modifier)
+            PermissionGrantedView(modifier, component)
         }
         is PermissionStatus.Denied -> {
             Column(
@@ -65,41 +68,44 @@ fun MapContent(
     }
 }
 
+@OptIn(MapsComposeExperimentalApi::class)
 @Composable
-private fun PermissionGrantedView(modifier: Modifier) {
+private fun PermissionGrantedView(
+    modifier: Modifier,
+    component: MapComponent
+) {
 
-    val singapore = LatLng(1.35, 103.87)
-    val batam = LatLng(1.07, 104.1)
-    val moro = LatLng(0.76092, 103.6959431)
+    val list by component.runways.collectAsState(emptyList())
+    val location by component.currentLocation.collectAsState(LocationEntity.DEFAULT)
 
-    var uiSettings by remember { mutableStateOf(MapUiSettings(rotationGesturesEnabled = false)) }
-    val properties by remember { mutableStateOf(MapProperties()) }
+    val uiSettings by remember { mutableStateOf(MapUiSettings(rotationGesturesEnabled = false)) }
+    val properties by remember { mutableStateOf(MapProperties(isMyLocationEnabled = true)) }
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(singapore, 10f)
+        position = CameraPosition.fromLatLngZoom(location.toLatLng(), ZOOM)
     }
 
-    Box(modifier) {
-        GoogleMap(
-            modifier = Modifier.matchParentSize(),
-            properties = properties,
-            cameraPositionState = cameraPositionState,
-            uiSettings = uiSettings
-        ) {
-            Marker(
-                position = singapore,
-                title = "Marker in Sydney"
-            )
-            Polyline(
-                points = listOf(singapore, batam, moro),
-                geodesic = true,
-            )
-        }
-        Switch(
-            checked = uiSettings.zoomControlsEnabled,
-            onCheckedChange = {
-                uiSettings = uiSettings.copy(zoomControlsEnabled = it)
+    LaunchedEffect(location) {
+        cameraPositionState.animate(CameraUpdateFactory.newLatLng(location.toLatLng()))
+    }
+    GoogleMap(
+        modifier = modifier,
+        properties = properties,
+        uiSettings = uiSettings,
+        cameraPositionState = cameraPositionState
+    ) {
+        val context = LocalContext.current
+        var clusterManager by remember { mutableStateOf<ClusterManager<MapClusterItem>?>(null) }
+        MapEffect(list) { map ->
+            if (clusterManager == null) {
+                clusterManager = ClusterManager<MapClusterItem>(context, map)
             }
-        )
+            clusterManager?.addItems(list.map { MapClusterItem(it) })
+        }
+        LaunchedEffect(key1 = cameraPositionState.isMoving) {
+            if (!cameraPositionState.isMoving) {
+                clusterManager?.onCameraIdle()
+            }
+        }
     }
 }
 

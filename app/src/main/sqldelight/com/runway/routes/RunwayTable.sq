@@ -11,6 +11,7 @@ CREATE TABLE Runway(
   nameRu TEXT NOT NULL,
   active INTEGER NOT NULL,
   type TEXT NOT NULL,
+  belongs TEXT NOT NULL,
   indexEn TEXT NOT NULL,
   indexRu TEXT NOT NULL
 );
@@ -20,8 +21,8 @@ SELECT count(_id) <> 0
 FROM Runway;
 
 insert:
-INSERT INTO Runway(runwayId, lat, lon, latSin, latCos, lonSin, lonCos, nameEn, nameRu, active, type, indexEn, indexRu)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO Runway(runwayId, lat, lon, latSin, latCos, lonSin, lonCos, nameEn, nameRu, active, type, belongs, indexEn, indexRu)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 getByDistance:
 SELECT *, (
@@ -33,3 +34,8 @@ FROM Runway
 WHERE active == 1
 ORDER BY distance DESC
 LIMIT :skip, :count;
+
+getAllRecords:
+SELECT *
+FROM Runway
+WHERE active == 1;

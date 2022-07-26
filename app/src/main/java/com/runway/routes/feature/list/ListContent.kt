@@ -17,7 +17,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.runway.routes.R
 import com.runway.routes.domain.entity.RunwayEntity
-import java.text.NumberFormat
 
 @Composable
 fun ListContent(

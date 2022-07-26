@@ -1,7 +1,9 @@
 package com.runway.routes.data.utils
 
+import com.google.android.gms.maps.model.LatLng
 import com.runway.routes.GetByDistance
 import com.runway.routes.Runway
+import com.runway.routes.domain.entity.LocationEntity
 import com.runway.routes.domain.entity.RunwayEntity
 import kotlin.math.acos
 
@@ -17,7 +19,8 @@ fun Runway.toEntity() = RunwayEntity(
     this.active,
     this.type,
     this.indexEn,
-    this.indexRu
+    this.indexRu,
+    this.belongs
 )
 
 fun GetByDistance.toEntity() = RunwayEntity(
@@ -31,5 +34,8 @@ fun GetByDistance.toEntity() = RunwayEntity(
     this.type,
     this.indexEn,
     this.indexRu,
+    this.belongs,
     acos(this.distance!!.toFloat()) * EARTH_RADIUS
 )
+
+fun LocationEntity.toLatLng() = LatLng(latitude, longitude)

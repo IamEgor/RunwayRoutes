@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="distance">%.2f км</string>
+    <!--Owner-->
+    <string name="owner_civil">Гражданская авиация</string>
+    <string name="owner_general">Аавиация общего назначения</string>
+    <string name="owner_experimental">Экспериментальная авиация</string>
+    <string name="owner_ministry_of_defence">Министерство обороны</string>
+    <string name="owner_ministry_of_internal_affairs">МВД</string>
+    <string name="owner_federal_security_service">ФСБ</string>
+    <string name="owner_DOSAAF">ДОСААФ</string>
+    <string name="owner_ministry_of_emergency_situations">МЧС</string>
+    <!--Owner-->
+</resources>
