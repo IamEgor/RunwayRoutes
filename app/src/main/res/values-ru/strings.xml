@@ -2,13 +2,13 @@
 <resources>
     <string name="distance">%.2f км</string>
     <!--Owner-->
-    <string name="owner_civil">Гражданская авиация</string>
-    <string name="owner_general">Аавиация общего назначения</string>
-    <string name="owner_experimental">Экспериментальная авиация</string>
+    <string name="owner_civil">Гражданская авиация (ФАВТ)</string>
+    <string name="owner_general">Гражданская авиация (Частный)</string>
+    <string name="owner_experimental">Экспериментальная Авиация (Минпромторг)</string>
     <string name="owner_ministry_of_defence">Министерство обороны</string>
-    <string name="owner_ministry_of_internal_affairs">МВД</string>
-    <string name="owner_federal_security_service">ФСБ</string>
+    <string name="owner_ministry_of_internal_affairs">Министерство внутренних дел</string>
+    <string name="owner_federal_security_service">Федеральная служба безопасности</string>
     <string name="owner_DOSAAF">ДОСААФ</string>
-    <string name="owner_ministry_of_emergency_situations">МЧС</string>
+    <string name="owner_ministry_of_emergency_situations">Министерство по чрезвычайным ситуациям</string>
     <!--Owner-->
 </resources>

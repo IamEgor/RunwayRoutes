@@ -1,6 +1,7 @@
 package com.runway.routes.feature.list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
@@ -24,10 +25,12 @@ import com.runway.routes.domain.entity.RunwayType
 import com.runway.routes.domain.entity.regionText
 import com.runway.routes.ui.composable.SearchView
 
+
 @Composable
 fun ListContent(
     component: ListComponent,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateDetails: (RunwayEntity) -> Unit
 ) {
 
     val runwaysLazyItems = component.runways.collectAsLazyPagingItems()
@@ -45,7 +48,7 @@ fun ListContent(
             contentPadding = PaddingValues(2.dp),
         ) {
             items(items = runwaysLazyItems) { runway ->
-                runway?.let { SuccessItemComponent(runway) }
+                runway?.let { SuccessItemComponent(runway, navigateDetails) }
             }
             runwaysLazyItems.apply {
                 when {
@@ -62,7 +65,7 @@ fun ListContent(
 }
 
 @Composable
-private fun SuccessItemComponent(runway: RunwayEntity) {
+private fun SuccessItemComponent(runway: RunwayEntity, navigateDetails: (RunwayEntity) -> Unit) {
     Card(
         elevation = 4.dp,
         modifier = Modifier
@@ -70,7 +73,9 @@ private fun SuccessItemComponent(runway: RunwayEntity) {
             .padding(PaddingValues(horizontal = 4.dp, vertical = 2.dp))
     ) {
         Column(
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier
+                .padding(4.dp)
+                .clickable { navigateDetails(runway) }
         ) {
             Text(
                 text = "#${runway.runwayId}",
@@ -139,5 +144,5 @@ fun SuccessItemComponentPreview() {
         "indexEx", "indexRu", Owner.GA,
         "Belarus", "Minsk obl", "Minsk", 111.0
     )
-    SuccessItemComponent(runway)
+    SuccessItemComponent(runway) { }
 }

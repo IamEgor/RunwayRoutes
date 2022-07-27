@@ -23,10 +23,10 @@ import com.google.maps.android.compose.*
 import com.runway.routes.R
 import com.runway.routes.RunwayApp
 import com.runway.routes.data.utils.toLatLng
+import com.runway.routes.domain.ZOOM
 import com.runway.routes.domain.entity.LocationEntity
 import com.runway.routes.utils.openAppSystemSettings
 
-const val ZOOM = 12f
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable

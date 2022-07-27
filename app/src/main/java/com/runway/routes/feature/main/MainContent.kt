@@ -21,13 +21,16 @@ import com.arkivanov.decompose.extensions.compose.jetpack.Children
 import com.arkivanov.decompose.extensions.compose.jetpack.subscribeAsState
 import com.arkivanov.decompose.router.RouterState
 import com.runway.routes.R
+import com.runway.routes.domain.entity.RunwayEntity
 import com.runway.routes.feature.list.ListContent
 import com.runway.routes.feature.map.MapContent
+
 
 @Composable
 fun MainContent(
     component: MainComponent,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigateDetails: (RunwayEntity) -> Unit
 ) {
 
     val routerState by component.routerState.subscribeAsState()
@@ -36,7 +39,8 @@ fun MainContent(
     Column(modifier = modifier) {
         Pager(
             modifier = Modifier.weight(weight = 1F),
-            routerState = routerState
+            routerState = routerState,
+            navigateDetails = navigateDetails
         )
         BottomNavigation(
             activeComponent = activeComponent,
@@ -49,7 +53,8 @@ fun MainContent(
 @Composable
 private fun Pager(
     modifier: Modifier,
-    routerState: RouterState<*, Main.Child>
+    routerState: RouterState<*, Main.Child>,
+    navigateDetails: (RunwayEntity) -> Unit
 ) {
     Children(
         routerState = routerState,
@@ -58,7 +63,8 @@ private fun Pager(
         when (val child = it.instance) {
             is Main.Child.ListChild -> ListContent(
                 component = child.component,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                navigateDetails = navigateDetails
             )
             is Main.Child.MapChild -> MapContent(
                 component = child.component,

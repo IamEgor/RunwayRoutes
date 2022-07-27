@@ -1,5 +1,13 @@
 package com.runway.routes.domain.entity
 
+import android.os.Parcelable
+import com.runway.routes.domain.PREVIEW_HEIGHT
+import com.runway.routes.domain.PREVIEW_WIDTH
+import com.runway.routes.domain.STATIC_MAP_HOST
+import com.runway.routes.domain.ZOOM
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class RunwayEntity(
     val _id: Long,
     val runwayId: Long,
@@ -16,7 +24,7 @@ data class RunwayEntity(
     val region: String,
     val city: String,
     val distanceKm: Double? = null
-) {
+) : Parcelable {
 
     companion object {
         const val ACTIVE = 1L
@@ -67,4 +75,13 @@ fun RunwayEntity.regionText() = if (region.isEmpty() && city.isEmpty()) {
     region
 } else {
     "$region, $city"
+}
+
+fun RunwayEntity.getPreviewMapUri(): String {
+    return STATIC_MAP_HOST +
+            "?ll=$lon,$lat" +
+            "&z=$ZOOM" +
+            "&l=map" +
+            "&size=$PREVIEW_WIDTH,$PREVIEW_HEIGHT" +
+            "&pt=$lon,$lat,comma"
 }
