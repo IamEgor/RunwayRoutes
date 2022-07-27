@@ -5,5 +5,8 @@ import com.runway.routes.domain.entity.RunwayEntity
 import kotlinx.coroutines.flow.Flow
 
 interface ListComponent {
+
     val runways: Flow<PagingData<RunwayEntity>>
+
+    fun updateFilter(query: String)
 }

@@ -39,13 +39,21 @@ class RunwayLocalDataSource(database: Database) {
                     point.type,
                     point.belongs,
                     point.index,
-                    point.index_ru
+                    point.index_ru,
+                    point.country_name,
+                    point.region,
+                    point.city
                 )
             }
         }
     }
 
-    suspend fun getByDistance(lat: Double, lon: Double, skip: Int, count: Int) = coroutineScope {
+    suspend fun getByDistance(
+        lat: Double,
+        lon: Double,
+        skip: Int,
+        count: Int
+    ) = coroutineScope {
         val latRad = lat / RAD
         val lonRad = lon / RAD
         tableQueries.getByDistance(
@@ -55,6 +63,28 @@ class RunwayLocalDataSource(database: Database) {
             inputLonCos = cos(lonRad),
             skip = skip.toLong(),
             count = count.toLong()
+        )
+            .executeAsList()
+            .map { it.toEntity() }
+    }
+
+    suspend fun getByDistanceWithQuery(
+        lat: Double,
+        lon: Double,
+        skip: Int,
+        count: Int,
+        query: String
+    ) = coroutineScope {
+        val latRad = lat / RAD
+        val lonRad = lon / RAD
+        tableQueries.getByDistanceWithQuery(
+            inputLatSin = sin(latRad),
+            inputLatCos = cos(latRad),
+            inputLonSin = sin(lonRad),
+            inputLonCos = cos(lonRad),
+            skip = skip.toLong(),
+            count = count.toLong(),
+            query = query
         )
             .executeAsList()
             .map { it.toEntity() }

@@ -8,7 +8,9 @@ import com.runway.routes.data.RunwayLocalDataSource
 import com.runway.routes.domain.entity.RunwayEntity
 import kotlin.math.min
 
+
 class ListPagingSource(
+    private val filter: String,
     private val locationSource: LocationDataSource,
     private val localDataSource: RunwayLocalDataSource,
     private val initialSize: Int
@@ -27,8 +29,7 @@ class ListPagingSource(
 
             val (latitude, longitude) = locationSource.getLastLocation()
 
-//            val runways = localDataSource.getRunways(offset, limit)
-            val runways = localDataSource.getByDistance(latitude, longitude, offset, limit)
+            val runways = getRunways(latitude, longitude, offset, limit)
             val hasMore = runways.size > loadSize
 
             LoadResult.Page(
@@ -46,5 +47,16 @@ class ListPagingSource(
         0
     } else {
         loadSize * (currentPage - 1) + initialSize
+    }
+
+    private suspend fun getRunways(
+        latitude: Double,
+        longitude: Double,
+        offset: Int,
+        limit: Int
+    ) = if (filter.isEmpty()) {
+        localDataSource.getByDistance(latitude, longitude, offset, limit)
+    } else {
+        localDataSource.getByDistanceWithQuery(latitude, longitude, offset, limit, filter)
     }
 }

@@ -13,7 +13,10 @@ CREATE TABLE Runway(
   type TEXT NOT NULL,
   belongs TEXT NOT NULL,
   indexEn TEXT NOT NULL,
-  indexRu TEXT NOT NULL
+  indexRu TEXT NOT NULL,
+  country TEXT NOT NULL,
+  region TEXT NOT NULL,
+  city TEXT NOT NULL
 );
 
 hasRecords:
@@ -21,8 +24,14 @@ SELECT count(_id) <> 0
 FROM Runway;
 
 insert:
-INSERT INTO Runway(runwayId, lat, lon, latSin, latCos, lonSin, lonCos, nameEn, nameRu, active, type, belongs, indexEn, indexRu)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO Runway(
+    runwayId, lat, lon, latSin, latCos, lonSin, lonCos, nameEn, nameRu, active,
+    type, belongs, indexEn, indexRu, country, region, city
+)
+VALUES (
+?, ?, ?, ?, ?, ?, ?, ?, ?,
+ ?, ?, ?, ?, ?, ?, ?, ?
+ );
 
 getByDistance:
 SELECT *, (
@@ -32,6 +41,25 @@ SELECT *, (
 ) AS distance
 FROM Runway
 WHERE active == 1
+ORDER BY distance DESC
+LIMIT :skip, :count;
+
+getByDistanceWithQuery:
+SELECT *, (
+    :inputLatSin * latSin
+    + :inputLatCos * latCos
+    * (:inputLonSin * lonSin + :inputLonCos * lonCos)
+) AS distance
+FROM Runway
+WHERE active == 1 AND (
+   UPPER(indexRu) == UPPER(:query) OR UPPER(indexEn) == UPPER(:query)
+   OR
+   UPPER(nameRu) LIKE UPPER('%' || :query || '%') OR UPPER(nameEn) LIKE UPPER('%' || :query || '%')
+   OR
+   UPPER(region) LIKE UPPER('%' || :query || '%')
+   OR
+   UPPER(city) LIKE UPPER('%' || :query || '%')
+)
 ORDER BY distance DESC
 LIMIT :skip, :count;
 

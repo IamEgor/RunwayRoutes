@@ -22,7 +22,8 @@ class RouteUtilsTest {
     fun test() {
         val xml = XML
         val text = File("src/test/res/aopa-points-export.xml").readText()
-        val points = xml.decodeFromString<PointsResponse>(text).point
+        val pointsResponse = xml.decodeFromString<PointsResponse>(text)
+        val points = pointsResponse.point
             .map { point ->
                 RunwayEntity(
                     point.id,
@@ -35,7 +36,10 @@ class RouteUtilsTest {
                     point.type,
                     point.index,
                     point.index_ru,
-                    point.belongs
+                    point.belongs,
+                    point.country_name,
+                    point.region,
+                    point.city
                 )
             }
             .filter { it.active }

@@ -12,6 +12,9 @@ data class RunwayEntity(
     val indexEn: String,
     val indexRu: String,
     val belongs: Owner?,
+    val country: String,
+    val region: String,
+    val city: String,
     val distanceKm: Double? = null
 ) {
 
@@ -33,6 +36,9 @@ data class RunwayEntity(
         indexEn: String,
         indexRu: String,
         belongs: String,
+        country: String,
+        region: String,
+        city: String,
         distanceKm: Double? = null
     ) : this(
         _id = _id,
@@ -46,32 +52,19 @@ data class RunwayEntity(
         indexEn = indexEn,
         indexRu = indexRu,
         belongs = Owner.fromString(belongs),
+        country = country,
+        region = region,
+        city = city,
         distanceKm = distanceKm
     )
 }
 
-enum class RunwayType(val value: String) {
-    VERT("vert"),
-    AIRPORT("airport"),
-}
-
-enum class Owner(val value: String) {
-
-    CA("ГА"),
-    GA("АОН"),
-    EA("ЭА"),
-    MD("МО"),
-    MUS("МВД"),
-    FSB("ФСБ"),
-    DOSAAF("ДОСААФ"),
-    MES("МЧС");
-
-    companion object {
-        fun fromString(value: String): Owner? {
-            values().forEach { owner ->
-                if (value == owner.value) return owner
-            }
-            return null
-        }
-    }
+fun RunwayEntity.regionText() = if (region.isEmpty() && city.isEmpty()) {
+    null
+} else if (region.isEmpty()) {
+    city
+} else if (city.isEmpty()) {
+    region
+} else {
+    "$region, $city"
 }
