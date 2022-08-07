@@ -1,4 +1,4 @@
-package com.runway.routes.data.model
+package com.runway.routes.data.response
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

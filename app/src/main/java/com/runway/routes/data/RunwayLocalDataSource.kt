@@ -1,7 +1,7 @@
 package com.runway.routes.data
 
 import com.runway.routes.Database
-import com.runway.routes.data.model.PointsResponse
+import com.runway.routes.data.response.PointsResponse
 import com.runway.routes.data.utils.toEntity
 import kotlinx.coroutines.coroutineScope
 import kotlin.math.PI

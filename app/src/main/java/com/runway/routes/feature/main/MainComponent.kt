@@ -10,6 +10,7 @@ import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import com.runway.routes.feature.list.ListComponentImpl
 import com.runway.routes.feature.map.MapComponentImpl
+import com.runway.routes.feature.route.RouteComponentImpl
 
 
 class MainComponent constructor(componentContext: ComponentContext) :
@@ -24,11 +25,16 @@ class MainComponent constructor(componentContext: ComponentContext) :
 
     override fun onListTabClicked() = router.bringToFront(Config.List)
 
+    override fun onRouteTabClicked() = router.bringToFront(Config.Route)
+
     override fun onMapTabClicked() = router.bringToFront(Config.Map)
 
     private fun child(config: Config, componentContext: ComponentContext) = when (config) {
         is Config.List -> Main.Child.ListChild(
             ListComponentImpl(componentContext)
+        )
+        is Config.Route -> Main.Child.RouteChild(
+            RouteComponentImpl(componentContext)
         )
         is Config.Map -> Main.Child.MapChild(
             MapComponentImpl(componentContext)
@@ -39,6 +45,9 @@ class MainComponent constructor(componentContext: ComponentContext) :
 
         @Parcelize
         object List : Config
+
+        @Parcelize
+        object Route : Config
 
         @Parcelize
         object Map : Config

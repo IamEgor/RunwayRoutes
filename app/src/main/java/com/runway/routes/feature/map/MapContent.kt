@@ -81,7 +81,7 @@ private fun PermissionGrantedView(
     val uiSettings by remember { mutableStateOf(MapUiSettings(rotationGesturesEnabled = false)) }
     val properties by remember { mutableStateOf(MapProperties(isMyLocationEnabled = true)) }
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(location.toLatLng(), ZOOM)
+        position = CameraPosition.fromLatLngZoom(location.toLatLng(), ZOOM.toFloat())
     }
 
     LaunchedEffect(location) {

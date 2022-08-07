@@ -4,11 +4,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.runway.routes.GetByDistance
 import com.runway.routes.GetByDistanceWithQuery
 import com.runway.routes.Runway
+import com.runway.routes.domain.EARTH_RADIUS
 import com.runway.routes.domain.entity.LocationEntity
 import com.runway.routes.domain.entity.RunwayEntity
 import kotlin.math.acos
 
-const val EARTH_RADIUS = 6_371.0
 
 fun Runway.toEntity() = RunwayEntity(
     _id = _id,

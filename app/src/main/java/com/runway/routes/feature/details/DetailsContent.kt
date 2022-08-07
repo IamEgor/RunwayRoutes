@@ -1,5 +1,6 @@
 package com.runway.routes.feature.details
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -37,7 +39,9 @@ fun DetailsContent(
                             contentDescription = "Back"
                         )
                     }
-                }, actions = {})
+                }, actions = {
+                    Image(imageVector = Icons.Filled.FavoriteBorder, contentDescription = null)
+                })
         },
         content = { contentPadding ->
             Column(modifier = Modifier.padding(contentPadding)) {

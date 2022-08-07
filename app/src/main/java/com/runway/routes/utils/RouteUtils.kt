@@ -1,7 +1,9 @@
 package com.runway.routes.utils
 
+import com.runway.routes.domain.EARTH_RADIUS
 import com.runway.routes.domain.entity.RunwayEntity
 import com.runway.routes.domain.exception.NoPathException
+
 
 @Throws(NoPathException::class)
 fun findRoute(
@@ -64,5 +66,5 @@ private fun distanceKm(
     return SphericalUtil.distanceRadians(
         Math.toRadians(fromLatitude), Math.toRadians(fromLongitude),
         Math.toRadians(toLatitude), Math.toRadians(toLongitude)
-    ) * MathUtil.EARTH_RADIUS / 1000
+    ) * EARTH_RADIUS / 1000
 }

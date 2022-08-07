@@ -1,6 +1,6 @@
 package com.runway.routes
 
-import com.runway.routes.data.model.PointsResponse
+import com.runway.routes.data.response.PointsResponse
 import com.runway.routes.domain.entity.RunwayEntity
 import com.runway.routes.domain.entity.RunwayType
 import com.runway.routes.utils.findRoute

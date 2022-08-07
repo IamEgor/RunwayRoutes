@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Route
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,6 +25,7 @@ import com.runway.routes.R
 import com.runway.routes.domain.entity.RunwayEntity
 import com.runway.routes.feature.list.ListContent
 import com.runway.routes.feature.map.MapContent
+import com.runway.routes.feature.route.RouteContent
 
 
 @Composable
@@ -66,6 +68,10 @@ private fun Pager(
                 modifier = Modifier.fillMaxSize(),
                 navigateDetails = navigateDetails
             )
+            is Main.Child.RouteChild -> RouteContent(
+                component = child.component,
+                modifier = Modifier.fillMaxSize()
+            )
             is Main.Child.MapChild -> MapContent(
                 component = child.component,
                 modifier = Modifier.fillMaxSize()
@@ -86,6 +92,12 @@ private fun BottomNavigation(
                 Icons.Default.List,
                 { activeComponent is Main.Child.ListChild },
                 component::onListTabClicked
+            ),
+            BottomNavigationItemEntity(
+                stringResource(R.string.route),
+                Icons.Default.Route,
+                { activeComponent is Main.Child.RouteChild },
+                component::onRouteTabClicked
             ),
             BottomNavigationItemEntity(
                 stringResource(R.string.map),

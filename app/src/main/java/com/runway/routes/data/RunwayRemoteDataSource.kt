@@ -2,9 +2,8 @@ package com.runway.routes.data
 
 import android.util.Log
 import com.runway.routes.RunwayApp
-import com.runway.routes.data.model.PointsResponse
+import com.runway.routes.data.response.PointsResponse
 import io.ktor.client.*
-import io.ktor.client.request.*
 import nl.adaptivity.xmlutil.serialization.XML
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
